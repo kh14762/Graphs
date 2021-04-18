@@ -1,6 +1,7 @@
 package graphs;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -282,9 +283,15 @@ public class UnweightedGraph<V> implements Graph<V> {
 	}
 	
 	@Override
+	// Removes vertex as well as edges associated with vertex
 	public boolean remove(V v) {
-		// TODO Auto-generated method stub
-		return false;
+		if (vertices.contains(v)) {
+			neighbors.remove(vertices.indexOf(v));
+			vertices.remove(v);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

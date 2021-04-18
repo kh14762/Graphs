@@ -54,7 +54,7 @@ public class WeightedGraph<V> extends UnweightedGraph<V> {
 		for (int i = 0; i < edges.length; i++) {
 			neighbors.get(edges[i][0]).add(new WeightedEdge(edges[i][0], edges[i][1], edges[i][2]));
 			if (isDirected != true) {
-				neighbors.get(edges[i][1]).add(new WeightedEdge(edges[i][0], edges[i][1], edges[i][2]));
+				neighbors.get(edges[i][1]).add(new WeightedEdge(edges[i][1], edges[i][0], edges[i][2]));
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class WeightedGraph<V> extends UnweightedGraph<V> {
 		for (WeightedEdge edge : edges) {
 			neighbors.get(edge.u).add(edge); // Add an edge into the list
 			if (isDirected != true) {
-				neighbors.get(edge.v).add(edge);
+				neighbors.get(edge.v).add(new WeightedEdge(edge.v, edge.u, edge.weight));
 			}
 		}
 	}
@@ -97,6 +97,7 @@ public class WeightedGraph<V> extends UnweightedGraph<V> {
 		}
 	}
 	
+	
 	// Add edges to the weighted graph
 	public boolean addEdge(int u, int v, double weight) {
 		return addEdge(new WeightedEdge(u, v, weight));
@@ -110,7 +111,7 @@ public class WeightedGraph<V> extends UnweightedGraph<V> {
 	// Get MST rooted at specific vertex
 	public MST getMinimumSpanningTree(int startingVertex) {
 		// cost[v] stores the cost by adding v to the tree
-		double[] cost = new double[getSize()];
+		double[] cost = new double[getSize()]; // cost[numberOfVertices]
 		for (int i = 0; i < cost.length; i++) {
 			cost[i] = Double.POSITIVE_INFINITY; // Initial cost
 		}
@@ -120,7 +121,7 @@ public class WeightedGraph<V> extends UnweightedGraph<V> {
 		parent[startingVertex] = -1; //starting vertex is the root
 		double totalWeight = 0; // Total weight of the tree thus far
 		
-		List<Integer> T = new ArrayList<>();
+		List<Integer> T = new ArrayList<>(); // T is a set that contains vertices in spanning tree
 		
 		// Expand T
 		while(T.size() < getSize()) {
